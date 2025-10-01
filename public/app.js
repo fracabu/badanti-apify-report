@@ -45,9 +45,21 @@ async function loadBadanti(filters = {}) {
         const res = await fetch(`${API_URL}/badanti?${params}`);
         currentBadanti = await res.json();
         renderBadanti(currentBadanti);
+        populateCittaFilter();
     } catch (err) {
         console.error('Errore caricamento badanti:', err);
     }
+}
+
+function populateCittaFilter() {
+    const citta = [...new Set(currentBadanti.map(b => b.zona).filter(z => z))].sort();
+    const select = document.getElementById('filterCitta');
+
+    // Mantieni l'opzione "Tutte le città" e aggiungi le città
+    const currentValue = select.value;
+    select.innerHTML = '<option value="">🌍 Tutte le città</option>' +
+        citta.map(c => `<option value="${c}">${c}</option>`).join('');
+    select.value = currentValue;
 }
 
 function renderBadanti(badanti) {
@@ -109,6 +121,9 @@ function getStatoBadgeColor(stato) {
 }
 
 function filterBadanti(filter) {
+    // Reset filtro città quando si usa filtro priorità/stato
+    document.getElementById('filterCitta').value = '';
+
     if (filter === 'all') {
         renderBadanti(currentBadanti);
     } else if (['MASSIMA', 'ALTA', 'MEDIA'].includes(filter)) {
@@ -116,6 +131,17 @@ function filterBadanti(filter) {
         renderBadanti(filtered);
     } else {
         const filtered = currentBadanti.filter(b => b.stato_contatto === filter);
+        renderBadanti(filtered);
+    }
+}
+
+function filterByCitta() {
+    const citta = document.getElementById('filterCitta').value;
+
+    if (!citta) {
+        renderBadanti(currentBadanti);
+    } else {
+        const filtered = currentBadanti.filter(b => b.zona === citta);
         renderBadanti(filtered);
     }
 }
