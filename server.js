@@ -13,7 +13,11 @@ if (badantiCount === 0) {
   console.log('📥 Database vuoto - avvio importazione dati iniziali...');
   try {
     require('./scripts/import-data');
-    console.log('✅ Dati iniziali importati con successo');
+    console.log('✅ Dati base importati (10 badanti premium)');
+
+    // Add more badanti for a complete database
+    require('./scripts/add-more-badanti');
+    console.log('✅ Database completo: 44 badanti totali');
   } catch (err) {
     console.error('⚠️ Errore importazione dati:', err.message);
   }
