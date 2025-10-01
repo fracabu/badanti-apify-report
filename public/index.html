@@ -22,6 +22,66 @@
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 1rem;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 12px;
+        }
+
+        .dropdown-item {
+            padding: 0.6rem 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .dropdown-item i {
+            margin-right: 8px;
         }
 
         .stat-card {
@@ -302,14 +362,52 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-dark">
+    <nav class="navbar navbar-dark navbar-expand-lg">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">
-                <i class="bi bi-people-fill"></i> Badanti Matcher Pro
-            </span>
-            <span class="text-white d-none d-md-inline">
-                <i class="bi bi-person-circle"></i> Operatore
-            </span>
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="logo-circle me-2">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+                <span class="d-none d-sm-inline">Badanti Matcher Pro</span>
+                <span class="d-inline d-sm-none">BMP</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#badanti" data-bs-toggle="pill" data-bs-target="#badanti">
+                            <i class="bi bi-people"></i> Badanti
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#offerte" data-bs-toggle="pill" data-bs-target="#offerte">
+                            <i class="bi bi-briefcase"></i> Offerte
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#matches" data-bs-toggle="pill" data-bs-target="#matches">
+                            <i class="bi bi-heart"></i> Matches
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#agenzie" data-bs-toggle="pill" data-bs-target="#agenzie">
+                            <i class="bi bi-building"></i> Agenzie
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> Operatore
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Impostazioni</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -345,30 +443,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Tabs -->
-        <ul class="nav nav-pills mb-3" id="mainTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="badanti-tab" data-bs-toggle="pill" data-bs-target="#badanti" type="button">
-                    <i class="bi bi-people"></i> Badanti
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="offerte-tab" data-bs-toggle="pill" data-bs-target="#offerte" type="button">
-                    <i class="bi bi-briefcase"></i> Offerte Lavoro
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="matches-tab" data-bs-toggle="pill" data-bs-target="#matches" type="button">
-                    <i class="bi bi-heart"></i> Matches
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="agenzie-tab" data-bs-toggle="pill" data-bs-target="#agenzie" type="button">
-                    <i class="bi bi-building"></i> Agenzie
-                </button>
-            </li>
-        </ul>
 
         <div class="tab-content" id="mainTabsContent">
             <!-- TAB BADANTI -->
