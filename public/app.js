@@ -21,6 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         renderBadanti(filtered);
     });
+
+    // Close navbar on mobile after clicking a link
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    const navbarCollapse = document.getElementById('navbarNav');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navbarCollapse.classList.contains('show')) {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                    toggle: false
+                });
+                bsCollapse.hide();
+            }
+        });
+    });
 });
 
 // ========== STATS ==========
