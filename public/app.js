@@ -89,7 +89,7 @@ function renderBadanti(badanti) {
     tbody.innerHTML = badanti.map(b => `
         <tr>
             <td>
-                <span class="priority-indicator priority-${b.priorita.toLowerCase()}"></span>
+                <span class="priority-indicator priority-${(b.priorita || 'MEDIA').toLowerCase()}"></span>
                 <strong>${b.nome}</strong>
                 ${b.nazionalita ? `<br><small class="text-muted">${b.nazionalita}</small>` : ''}
             </td>
@@ -110,10 +110,10 @@ function renderBadanti(badanti) {
                 ${b.qualifica ? `<br><span class="badge bg-success">${b.qualifica}</span>` : ''}
             </td>
             <td>
-                <span class="badge-priority badge-${b.priorita.toLowerCase()}">${b.priorita}</span>
+                <span class="badge-priority badge-${(b.priorita || 'MEDIA').toLowerCase()}">${b.priorita || 'MEDIA'}</span>
             </td>
             <td>
-                <span class="badge bg-${getStatoBadgeColor(b.stato_contatto)}">${b.stato_contatto}</span>
+                <span class="badge bg-${getStatoBadgeColor(b.stato_contatto)}">${b.stato_contatto || 'N/D'}</span>
             </td>
             <td>
                 <button class="btn btn-sm btn-primary" onclick="viewBadante(${b.id})">

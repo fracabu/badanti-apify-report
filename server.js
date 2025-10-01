@@ -286,7 +286,7 @@ app.get('/api/stats', (req, res) => {
     offerte_attive: db.prepare('SELECT COUNT(*) as count FROM offerte WHERE stato = ?').get('ATTIVA').count,
     matches_proposti: db.prepare('SELECT COUNT(*) as count FROM matches WHERE stato = ?').get('PROPOSTO').count,
     matches_accettati: db.prepare('SELECT COUNT(*) as count FROM matches WHERE stato = ?').get('ACCETTATO').count,
-    contatti_oggi: db.prepare("SELECT COUNT(*) as count FROM contatti WHERE DATE(data_ora) = DATE('now')").get().count
+    contatti_oggi: db.prepare("SELECT COUNT(*) as count FROM contatti WHERE date(data_ora) = date('now')").get().count
   };
 
   res.json(stats);

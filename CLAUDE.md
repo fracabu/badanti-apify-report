@@ -28,6 +28,8 @@ npm run dev
 ```bash
 # Initialize database with 10 premium caregivers + 5 job offers + 3 agencies
 node scripts/import-data.js
+# or
+npm run build
 
 # Add 34 additional caregivers (44 total)
 node scripts/add-more-badanti.js
@@ -37,11 +39,13 @@ node scripts/add-more-badanti.js
 
 ### Database Backup/Reset
 ```bash
-# Backup database (Windows)
-copy badanti.db badanti_backup_%date%.db
+# Backup database
+copy badanti.db badanti_backup_%date%.db  # Windows
+cp badanti.db badanti_backup_$(date +%Y%m%d).db  # Linux/Mac
 
 # Reset database
-del badanti.db
+del badanti.db  # Windows
+rm badanti.db   # Linux/Mac
 node scripts/import-data.js
 ```
 
@@ -57,15 +61,18 @@ node scripts/import-data.js
 
 **server.js** - Express REST API server
 - All API endpoints in a single file (no routing separation)
-- Port: 3000 (hardcoded)
+- Port: 3000 (can be overridden via PORT env var)
 - Uses synchronous better-sqlite3 queries (`.all()`, `.get()`, `.run()`)
 - CORS enabled for all origins
+- Uses body-parser for JSON request parsing
 
 **public/index.html** - Single-page application
 - All frontend code in one HTML file (HTML + CSS + JS)
-- Uses Bootstrap 5.3 for UI
+- Uses Bootstrap 5.3 for UI and Bootstrap Icons
 - Vanilla JavaScript (no framework)
 - Makes fetch() calls to API endpoints
+- Tab-based navigation with sections: Dashboard, Badanti, Offerte, Matches, Contatti, Agenzie
+- Responsive navbar with logo, hamburger menu, and user dropdown
 
 ### Database Schema
 
@@ -109,19 +116,6 @@ Located in `/api/auto-match/:offerta_id` endpoint (server.js:148-233)
 **Minimum score:** 40 points (below this, match is rejected)
 **Returns:** Top 10 matches sorted by score descending
 
-### API Patterns
-
-**Query parameters for filtering:**
-- GET /api/badanti accepts: zona, priorita, stato, search
-- GET /api/offerte accepts: zona, stato
-
-**Updates use PUT:**
-- PUT /api/badanti/:id - Updates only stato_contatto, note, data_ultimo_contatto
-- PUT /api/matches/:id - Updates only stato
-
-**Stats endpoint:**
-- GET /api/stats returns dashboard KPIs (counts aggregated from tables)
-
 ## Key Workflows
 
 ### Adding New Caregivers
@@ -143,3 +137,43 @@ Currently done via scripts (scripts/import-data.js pattern). Web UI for adding c
 - Italian language used throughout (UI, field names, values)
 - Phone numbers formatted as Italian mobile (3XX.XXX.XXXX)
 - Click-to-call functionality uses tel: links (requires proper browser/OS setup)
+- Static files served from `public/` directory via express.static
+- Single-page application with tab-based navigation (no URL routing)
+- SQLite dates stored as TEXT with CURRENT_TIMESTAMP
+- Date queries use SQLite date functions: DATE('now'), DATE(field)
+
+## Full API Reference
+
+### Badanti
+```
+GET    /api/badanti              # List caregivers (filters: zona, priorita, stato, search)
+GET    /api/badanti/:id          # Get caregiver details + contact history
+PUT    /api/badanti/:id          # Update caregiver (stato_contatto, note, data_ultimo_contatto)
+```
+
+### Offerte
+```
+GET    /api/offerte              # List job offers (filters: zona, stato)
+GET    /api/offerte/:id          # Get job offer details
+```
+
+### Matches
+```
+GET    /api/matches              # List all matches with joined badante/offerta details
+POST   /api/matches              # Create manual match (badante_id, offerta_id, score, motivo)
+PUT    /api/matches/:id          # Update match status
+DELETE /api/matches/:id          # Delete match
+POST   /api/auto-match/:offerta_id  # Get top 10 automatic matches for an offer
+```
+
+### Contatti
+```
+GET    /api/contatti             # List contacts (filters: riferimento_id, riferimento_tipo)
+POST   /api/contatti             # Log contact (auto-updates badanti.data_ultimo_contatto)
+```
+
+### Agenzie & Stats
+```
+GET    /api/agenzie              # List partner agencies
+GET    /api/stats                # Dashboard KPIs (counts by status, today's contacts)
+```
