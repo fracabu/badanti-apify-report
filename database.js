@@ -105,4 +105,16 @@ db.exec(`
 
 console.log('✅ Database schema creato con successo');
 
+// Auto-populate database if empty (first run)
+const badantiCount = db.prepare('SELECT COUNT(*) as count FROM badanti').get().count;
+if (badantiCount === 0) {
+  console.log('📥 Database vuoto - avvio importazione dati iniziali...');
+  try {
+    require('./scripts/import-data');
+    console.log('✅ Dati iniziali importati con successo');
+  } catch (err) {
+    console.error('⚠️ Errore importazione dati:', err.message);
+  }
+}
+
 module.exports = db;
