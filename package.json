@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "init-db": "node scripts/init-db.js"
+    "init-db": "node scripts/init-db.js",
+    "build": "node scripts/import-data.js"
   },
   "keywords": ["badanti", "matching", "crm"],
   "author": "",
