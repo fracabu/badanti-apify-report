@@ -3,9 +3,7 @@ services:
     name: badanti-matcher
     env: node
     plan: free
-    buildCommand: |
-      npm install
-      node scripts/import-data.js
+    buildCommand: npm run render-build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
