@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3000/api';
+// Use relative URL so it works both locally and on Render
+const API_URL = '/api';
 
 let currentBadanti = [];
 let currentOfferte = [];
