@@ -23,12 +23,29 @@ document.addEventListener('DOMContentLoaded', () => {
         renderBadanti(filtered);
     });
 
-    // Close navbar on mobile after clicking a link
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    // Handle navbar tab clicks and close mobile menu
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link[data-bs-toggle="pill"]');
     const navbarCollapse = document.getElementById('navbarNav');
 
     navLinks.forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Activate the target tab
+            const targetId = link.getAttribute('data-bs-target');
+            const targetTab = document.querySelector(targetId);
+
+            if (targetTab) {
+                // Remove active from all tabs
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('show', 'active');
+                });
+
+                // Show target tab
+                targetTab.classList.add('show', 'active');
+            }
+
+            // Close navbar on mobile
             if (navbarCollapse.classList.contains('show')) {
                 const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
                     toggle: false
