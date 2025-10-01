@@ -97,12 +97,15 @@ function populateCittaFilter() {
 
 function renderBadanti(badanti) {
     const tbody = document.getElementById('badantiTableBody');
+    const cardsContainer = document.getElementById('badantiCardsContainer');
 
     if (badanti.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" class="text-center">Nessuna badante trovata</td></tr>';
+        cardsContainer.innerHTML = '<p class="text-center text-muted">Nessuna badante trovata</p>';
         return;
     }
 
+    // Render table for desktop
     tbody.innerHTML = badanti.map(b => `
         <tr>
             <td>
@@ -138,6 +141,61 @@ function renderBadanti(badanti) {
                 </button>
             </td>
         </tr>
+    `).join('');
+
+    // Render cards for mobile
+    cardsContainer.innerHTML = badanti.map(b => `
+        <div class="badante-card">
+            <h5>
+                <span class="priority-indicator priority-${(b.priorita || 'MEDIA').toLowerCase()}"></span>
+                ${b.nome}
+            </h5>
+            ${b.nazionalita ? `<div class="text-muted mb-2"><small>${b.nazionalita}</small></div>` : ''}
+
+            <div class="card-info-row">
+                <span class="card-info-label"><i class="bi bi-telephone"></i> Telefono</span>
+                <span class="card-info-value">
+                    ${b.telefono ? `<a href="tel:${b.telefono}" class="text-success">${b.telefono}</a>` : 'N/D'}
+                </span>
+            </div>
+
+            <div class="card-info-row">
+                <span class="card-info-label"><i class="bi bi-geo-alt"></i> Zona</span>
+                <span class="card-info-value">${b.zona || 'N/D'}</span>
+            </div>
+
+            <div class="card-info-row">
+                <span class="card-info-label"><i class="bi bi-briefcase"></i> Esperienza</span>
+                <span class="card-info-value">${b.esperienza_anni ? `${b.esperienza_anni} anni` : 'N/D'}</span>
+            </div>
+
+            ${b.qualifica ? `
+            <div class="card-info-row">
+                <span class="card-info-label"><i class="bi bi-award"></i> Qualifica</span>
+                <span class="card-info-value"><span class="badge bg-success">${b.qualifica}</span></span>
+            </div>
+            ` : ''}
+
+            <div class="card-info-row">
+                <span class="card-info-label"><i class="bi bi-flag"></i> Priorità</span>
+                <span class="card-info-value">
+                    <span class="badge-priority badge-${(b.priorita || 'MEDIA').toLowerCase()}">${b.priorita || 'MEDIA'}</span>
+                </span>
+            </div>
+
+            <div class="card-info-row">
+                <span class="card-info-label"><i class="bi bi-check-circle"></i> Stato</span>
+                <span class="card-info-value">
+                    <span class="badge bg-${getStatoBadgeColor(b.stato_contatto)}">${b.stato_contatto || 'N/D'}</span>
+                </span>
+            </div>
+
+            <div class="card-actions">
+                ${b.telefono ? `<a href="tel:${b.telefono}" class="btn btn-sm btn-call"><i class="bi bi-telephone"></i> Chiama</a>` : ''}
+                ${b.whatsapp ? `<a href="https://wa.me/${b.whatsapp.replace(/[^0-9]/g, '')}" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> WhatsApp</a>` : ''}
+                <button class="btn btn-sm btn-primary" onclick="viewBadante(${b.id})"><i class="bi bi-eye"></i> Dettagli</button>
+            </div>
+        </div>
     `).join('');
 }
 

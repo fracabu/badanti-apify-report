@@ -313,32 +313,77 @@
             }
         }
 
+        /* Mobile Card Layout */
+        .badante-card,
+        .offerta-card,
+        .agenzia-card {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .badante-card h5 {
+            margin: 0 0 12px 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .card-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .card-info-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .card-info-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .card-info-value {
+            text-align: right;
+            color: #333;
+        }
+
+        .card-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .card-actions .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+
         /* Mobile optimizations */
         @media (max-width: 767px) {
-            .table {
+            /* Hide tables on mobile */
+            .table-responsive {
+                display: none !important;
+            }
+
+            /* Show cards on mobile */
+            .badante-card,
+            .offerta-card,
+            .agenzia-card {
                 display: block;
-                width: 100%;
-                overflow-x: auto;
-                white-space: nowrap;
             }
 
-            .table thead,
-            .table tbody,
-            .table tr {
-                display: table;
-                width: 100%;
-            }
-
-            .table td,
-            .table th {
-                font-size: 0.75rem;
-                padding: 8px 4px;
-            }
-
-            /* Hide less important columns on very small screens */
-            .table thead th:nth-child(4),
-            .table tbody td:nth-child(4) {
-                display: none;
+            #badantiCardsContainer,
+            #offerteCardsContainer,
+            #agenzieCardsContainer {
+                display: block;
             }
 
             .navbar-brand {
@@ -350,12 +395,26 @@
             }
 
             .btn-sm {
-                font-size: 0.65rem;
-                padding: 4px 6px;
+                font-size: 0.75rem;
+                padding: 6px 12px;
             }
 
             h4 {
                 font-size: 1.1rem;
+            }
+
+            .filter-btn {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Desktop - hide cards, show tables */
+        @media (min-width: 768px) {
+            #badantiCardsContainer,
+            #offerteCardsContainer,
+            #agenzieCardsContainer {
+                display: none !important;
             }
         }
     </style>
@@ -487,6 +546,9 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards View -->
+                    <div id="badantiCardsContainer"></div>
                 </div>
             </div>
 
@@ -511,6 +573,9 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards View -->
+                    <div id="offerteCardsContainer"></div>
                 </div>
             </div>
 
@@ -544,6 +609,9 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards View -->
+                    <div id="agenzieCardsContainer"></div>
                 </div>
             </div>
         </div>
